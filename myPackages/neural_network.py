@@ -8,13 +8,17 @@ LAYER_TYPES = {"standard": lay.Layer, "input": lay.Layer, "output": lay.Layer}
 class NeuralNetwork:
     propagation_types = {"sample": bp.sample_prop, "mini-batch": bp.mini_prop, "batch": bp.batch_prop}
 
-    def __init__(self, propagation: str="sample", learning_rate: float=0.1) -> None:
+    def __init__(self, propagation: str="sample", learning_rate: float=0.1, max_iterations: int=100) -> None:
         if propagation not in self.propagation_types:
             raise ValueError("Propagation type not supported.")
-        self.propagation = self.propagation_types[propagation]
         if learning_rate <= 0:
             raise ValueError("Learning rate cannot 0 or negative.")
+        if type(max_iterations) != int or  max_iterations < 1:
+            raise ValueError("Max Iterations has to be positive integer.")
+        
+        self.propagation = self.propagation_types[propagation]
         self.learning_rate = learning_rate
+        self.max_iterations = max_iterations
         self.layers = []
 
     def add_layer(self, num_nodes: int, layer_type: str="standard", act_func: str="linear", **kwargs) -> None:
