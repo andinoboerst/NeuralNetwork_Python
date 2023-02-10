@@ -9,10 +9,13 @@ ACTIVATION_FUNCTIONS = {"linear": af.linear_activation, "hyperbolic": af.hyperbo
 class NeuralNetwork:
     propagation_types = {"sample": bp.sample_prop, "mini-batch": bp.mini_prop, "batch": bp.batch_prop}
 
-    def __init__(self, propagation: str="sample") -> None:
+    def __init__(self, propagation: str="sample", learning_rate: float=0.1) -> None:
         if propagation not in self.propagation_types:
             raise ValueError("Propagation type not supported.")
         self.propagation = self.propagation_types[propagation]
+        if learning_rate <= 0:
+            raise ValueError("Learning rate cannot 0 or negative.")
+        self.learning_rate = learning_rate
         self.layers = []
 
     def add_layer(self, num_nodes: int, nn_type: str="standard", act_func: str="linear") -> None:
