@@ -17,7 +17,7 @@ class NeuralNetwork:
         self.learning_rate = learning_rate
         self.layers = []
 
-    def add_layer(self, num_nodes: int, layer_type: str="standard", act_func: str="linear") -> None:
+    def add_layer(self, num_nodes: int, layer_type: str="standard", act_func: str="linear", **kwargs) -> None:
         '''
         Add a layer to the Neural Network
         inputs: 
@@ -33,7 +33,7 @@ class NeuralNetwork:
         elif layer_type == "input":
             self.layers.append(LAYER_TYPES[layer_type](num_nodes, layer_type, act_func))
         else:
-            self.layers.append(LAYER_TYPES[layer_type](num_nodes, layer_type, act_func, self.layers[-1]))
+            self.layers.append(LAYER_TYPES[layer_type](num_nodes, layer_type, act_func, self.layers[-1], **kwargs))
 
     def predict(self, input: list) -> list:
         if len(input) != len(self.layers[0].nodes):

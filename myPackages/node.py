@@ -1,7 +1,7 @@
 import myPackages.edge as ed
 
 class Node:
-    def __init__(self, num_w: int=0) -> None:
+    def __init__(self) -> None:
         self.bias = 0
         self.edges = []
 

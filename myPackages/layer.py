@@ -6,7 +6,7 @@ ACTIVATION_FUNCTIONS = {"linear": af.linear_activation, "hyperbolic": af.hyperbo
 
 
 class Layer:
-    def __init__(self, num_nodes: int, layer_type: str, act_func: str, prev_layer=None) -> None:
+    def __init__(self, num_nodes: int, layer_type: str, act_func: str, prev_layer=None, **kwargs) -> None:
         self.num_nodes = num_nodes
         self.layer_type = layer_type
         self.activation_function = ACTIVATION_FUNCTIONS[act_func]
@@ -29,3 +29,8 @@ class Layer:
 
     def connect_graph(self):
         print("do smth here")
+
+
+class ConvolutionalLayer(Layer):
+    def __init__(self, num_nodes: int, layer_type: str, act_func: str, prev_layer=None, **kwargs) -> None:
+        super().__init__(num_nodes, layer_type, act_func, prev_layer, kwargs)
