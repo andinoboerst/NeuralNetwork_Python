@@ -51,16 +51,4 @@ def plot_digits(digits):
     plt.show()
 
 if __name__=="__main__":
-    #main()
-
-    test = [[[1,2,3],[4,5,6,7]],
-            [[1,2,3],[4,5,6,7]],
-            [[1,2,3],[4,5,6,7]]]
-    avg = test[0]
-    for entry in test[1:]:
-        for index, l in enumerate(entry):
-            avg[index] = [sum(i) for i in zip(avg[index],l)]
-    for i, entry in enumerate(avg):
-        for j, item in enumerate(entry):
-            avg[i][j] = item / len(test)
-    print(avg)
+    main()
