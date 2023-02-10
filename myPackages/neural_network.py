@@ -1,6 +1,7 @@
 import myPackages.layer as lay
 import myPackages.back_propagation as bp
 import myPackages.graph_viz as gv
+import numpy as np
 
 LAYER_TYPES = {"standard": lay.Layer, "input": lay.Layer, "output": lay.Layer}
 
@@ -21,7 +22,7 @@ class NeuralNetwork:
         self.max_iterations = max_iterations
         self.layers = []
 
-    def add_layer(self, num_nodes: int, layer_type: str="standard", act_func: str="linear", **kwargs) -> None:
+    def add_layer(self, num_nodes: int, layer_type: str="standard", act_func: str="hyperbolic", **kwargs) -> None:
         '''
         Add a layer to the Neural Network
         inputs: 
@@ -39,14 +40,17 @@ class NeuralNetwork:
         else:
             self.layers.append(LAYER_TYPES[layer_type](num_nodes, layer_type, act_func, self.layers[-1], **kwargs))
 
-    def predict(self, input: list) -> list:
-        if len(input) != len(self.layers[0].nodes):
+    def predict(self, input: np.array([[]])) -> list:
+        if len(input[0]) != len(self.layers[0].nodes):
             raise IndexError("Input is not equivalent to size of input layer.")
-        for value, node in zip(input, self.layers[0].nodes):
-            node.result = value
-        for layer in self.layers[1:]:
-            layer.layer_predict()
-        return [node.result for node in self.layers[-1].nodes]
+        results = []
+        for entry in input:
+            for value, node in zip(entry, self.layers[0].nodes):
+                node.result = value
+            for layer in self.layers[1:]:
+                layer.layer_predict()
+            results.append([node.result for node in self.layers[-1].nodes])
+        return np.array(results)
     
     def fit(self, X: list, y: list) -> None:
         self.propagation(X, y)

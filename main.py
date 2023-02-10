@@ -20,14 +20,26 @@ def main():
         data, digits.target, test_size=0.5, shuffle=False
     )
 
+    y_train_adjusted = np.zeros((len(y_test), 10)) # for every digit store an array of length 10 of zeros with the correct digit being represented with a 1 in that index
+    for index, digit in enumerate(y_train):
+        y_train_adjusted[index, digit] = 1
+
+
     my_NN = nn.NeuralNetwork()
-    my_NN.add_layer(3, layer_type="input")
-    my_NN.add_layer(5)
-    my_NN.add_layer(3)
-    my_NN.add_layer(1, "output")
+    my_NN.add_layer(64, layer_type="input")
+    my_NN.add_layer(53)
+    my_NN.add_layer(42)
+    my_NN.add_layer(31)
+    my_NN.add_layer(20)
+    my_NN.add_layer(10, "output")
+
+    #my_NN.fit(X_train, y_train_adjusted)
 
     #print([node.bias for node in my_NN.layers[0].nodes])
-    print(my_NN.predict([1, 2, 0.3]))
+    #print(my_NN.predict(np.array([[1, 2, 0.3],[1,2,0.9]])))
+    predictions_test = my_NN.predict(X_test)
+    print(predictions_test)
+    print(np.argmax(predictions_test, axis=1))
 
 
 def plot_digits(digits):
