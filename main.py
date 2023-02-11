@@ -13,7 +13,7 @@ def main():
 
     # flatten the images
     n_samples = len(digits.images)
-    data = digits.images.reshape((n_samples, -1))
+    data = digits.images.reshape((n_samples, -1))/100
 
     # Split data into 50% train and 50% test subsets
     X_train, X_test, y_train, y_test = train_test_split(
@@ -30,7 +30,7 @@ def main():
     my_NN.add_standard_layer(53)
     my_NN.add_standard_layer(42)
     my_NN.add_standard_layer(31)
-    my_NN.add_standard_layer(20)
+    #my_NN.add_standard_layer(20)
     my_NN.add_output_layer(10)
 
     my_NN.fit(X_train, y_train_adjusted)
@@ -38,8 +38,12 @@ def main():
     #print([node.bias for node in my_NN.layers[0].nodes])
     #print(my_NN.predict(np.array([[1, 2, 0.3],[1,2,0.9]])))
     predictions_test = my_NN.predict(X_test)
+    num_predictions_test = np.argmax(predictions_test, axis=1)
     print(predictions_test)
-    print(np.argmax(predictions_test, axis=1))
+    for pred, actual in zip(num_predictions_test, y_test):
+        print(f"pred: {pred} | {actual} :actual")
+    print(num_predictions_test)
+    print(f"accuracy: {sum(num_predictions_test==y_test)/len(y_test)}")
 
 
 def plot_digits(digits):

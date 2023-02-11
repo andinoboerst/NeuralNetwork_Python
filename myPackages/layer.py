@@ -21,15 +21,19 @@ class Layer:
         self.nodes = [nd.Node() for i in range(self.num_nodes)]
         if self.prev_layer is not None:
             for node2 in self.nodes:
-                node2.add_edges([ed.Edge(node1, node2, random.uniform(0,1)) for node1 in self.prev_layer.nodes])
+                node2.add_edges([ed.Edge(node1, node2, random.uniform(-1,1)) for node1 in self.prev_layer.nodes])
             
 
     def layer_predict(self) -> None:
         for node in self.nodes:
             res = node.bias
             for edge in node.edges:
+                #print(f"res: {res} weight: {edge.weight}")
                 res += edge.weight*edge.nodes[0].result
+            #print(res)
             node.store_result(self.activation_function(res))
+            #print(node.result)
+            #input("pause")
 
     def define_errors(self):
         for node in self.nodes:
@@ -45,6 +49,10 @@ class OutputLayer(Layer):
         for result_expected, node in zip(y_expected, self.nodes):
             for edge in node.edges:
                 node.error = (node.result - result_expected)*self.deriv_activation(node.result)
+                # print(node.result)
+                # print(self.deriv_activation(node.result))
+                # print(node.error)
+                #input("do smth")
                 edge.nodes[0].error = (node.error*edge.weight)*self.deriv_activation(node.result)
 
 

@@ -29,7 +29,7 @@ class NeuralNetwork:
     def add_input_layer(self, num_nodes: int) -> None:
         self.layers.append(lay.Layer(num_nodes))
 
-    def add_standard_layer(self, num_nodes: int, act_func: str="sigmoid") -> None:
+    def add_standard_layer(self, num_nodes: int, act_func: str="relu") -> None:
         self.check_input_layer()
         self.layers.append(lay.Layer(num_nodes, act_func, self.layers[-1]))
 

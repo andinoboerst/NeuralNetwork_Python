@@ -6,13 +6,17 @@ def sample_prop(my_nn, X: np.array([[]]), Y: np.array([[]]), to_update: bool=Tru
     Backpropagation after every sample
     '''
     for x, y in zip(X,Y):
+        #print(x)
         my_nn.predict([x])
+        #print(my_nn.predict([x]))
+        #print(y)
         my_nn.layers[-1].define_errors(y)
-        for layer in reversed(my_nn.layers[2:-1]):
+        for layer in reversed(my_nn.layers[1:-1]):
             layer.define_errors()
 
         for layer in reversed(my_nn.layers[1:]):
             for node in layer.nodes:
+                node.new_bias = node.bias - (my_nn.learning_rate*node.error)
                 for edge in node.edges:
                     res = edge.weight-(my_nn.learning_rate*node.error*edge.nodes[0].result)
                     edge.new_weights.append(res)
@@ -49,6 +53,7 @@ def apply_prop(my_nn):
     '''
     for layer in reversed(my_nn.layers[1:]):
         for node in layer.nodes:
+            node.bias = node.new_bias
             for edge in node.edges:
                 edge.weight = np.mean(edge.new_weights)
                 edge.new_weights = []
