@@ -9,7 +9,7 @@ LAYER_TYPES = {"standard": lay.Layer, "input": lay.Layer, "output": lay.Layer}
 class NeuralNetwork:
     propagation_types = {"sample": bp.sample_prop, "mini-batch": bp.mini_prop, "batch": bp.batch_prop}
 
-    def __init__(self, propagation: str="mini-batch", learning_rate: float=0.1, max_iterations: int=100) -> None:
+    def __init__(self, propagation: str="mini-batch", learning_rate: float=0.1, max_iterations: int=200) -> None:
         if propagation not in self.propagation_types:
             raise ValueError("Propagation type not supported.")
         if learning_rate <= 0:

@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import myPackages.neural_network as nn
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
+import seaborn as sns
+import pandas as pd
 
 
 def main():
@@ -27,7 +29,7 @@ def main():
 
     my_NN = nn.NeuralNetwork()
     my_NN.add_input_layer(64)
-    my_NN.add_standard_layer(53)
+    #my_NN.add_standard_layer(53)
     my_NN.add_standard_layer(42)
     my_NN.add_standard_layer(31)
     #my_NN.add_standard_layer(20)
@@ -44,6 +46,14 @@ def main():
         print(f"pred: {pred} | {actual} :actual")
     print(num_predictions_test)
     print(f"accuracy: {sum(num_predictions_test==y_test)/len(y_test)}")
+
+    df = pd.DataFrame(0, index=np.arange(10), columns=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    for pre, actual in zip(num_predictions_test, y_test):
+        df.loc[pre,actual] += 1
+    sns.heatmap(df, annot=True)
+    plt.ylabel("predicted")
+    plt.xlabel("actual")
+    plt.show()
 
 
 def plot_digits(digits):
