@@ -26,14 +26,14 @@ def main():
 
 
     my_NN = nn.NeuralNetwork()
-    my_NN.add_layer(64, layer_type="input")
-    my_NN.add_layer(53)
-    my_NN.add_layer(42)
-    my_NN.add_layer(31)
-    my_NN.add_layer(20)
-    my_NN.add_layer(10, "output")
+    my_NN.add_input_layer(64)
+    my_NN.add_standard_layer(53)
+    my_NN.add_standard_layer(42)
+    my_NN.add_standard_layer(31)
+    my_NN.add_standard_layer(20)
+    my_NN.add_output_layer(10)
 
-    #my_NN.fit(X_train, y_train_adjusted)
+    my_NN.fit(X_train, y_train_adjusted)
 
     #print([node.bias for node in my_NN.layers[0].nodes])
     #print(my_NN.predict(np.array([[1, 2, 0.3],[1,2,0.9]])))

@@ -9,7 +9,7 @@ LAYER_TYPES = {"standard": lay.Layer, "input": lay.Layer, "output": lay.Layer}
 class NeuralNetwork:
     propagation_types = {"sample": bp.sample_prop, "mini-batch": bp.mini_prop, "batch": bp.batch_prop}
 
-    def __init__(self, propagation: str="sample", learning_rate: float=0.1, max_iterations: int=100) -> None:
+    def __init__(self, propagation: str="mini-batch", learning_rate: float=0.1, max_iterations: int=100) -> None:
         if propagation not in self.propagation_types:
             raise ValueError("Propagation type not supported.")
         if learning_rate <= 0:
@@ -22,23 +22,20 @@ class NeuralNetwork:
         self.max_iterations = max_iterations
         self.layers = []
 
-    def add_layer(self, num_nodes: int, layer_type: str="standard", act_func: str="hyperbolic", **kwargs) -> None:
-        '''
-        Add a layer to the Neural Network
-        inputs: 
-            num of nodes in the layer
-            type of the layer (default: standard, other options: input, output)
-        '''
-        if layer_type not in LAYER_TYPES:
-            raise TypeError("Layer Type not supported.")
-        elif num_nodes < 1 or type(num_nodes) is not int:
-            raise ValueError("Number of nodes must be a positive integer.")
-        elif len(self.layers) == 0 and layer_type != "input":
+    def check_input_layer(self) -> None:
+        if len(self.layers) == 0:
             raise AttributeError("Need to add input layer first.")
-        elif layer_type == "input":
-            self.layers.append(LAYER_TYPES[layer_type](num_nodes, layer_type, act_func))
-        else:
-            self.layers.append(LAYER_TYPES[layer_type](num_nodes, layer_type, act_func, self.layers[-1], **kwargs))
+
+    def add_input_layer(self, num_nodes: int) -> None:
+        self.layers.append(lay.Layer(num_nodes))
+
+    def add_standard_layer(self, num_nodes: int, act_func: str="sigmoid") -> None:
+        self.check_input_layer()
+        self.layers.append(lay.Layer(num_nodes, act_func, self.layers[-1]))
+
+    def add_output_layer(self, num_nodes: int, act_func: str="sigmoid") -> None:
+        self.check_input_layer()
+        self.layers.append(lay.OutputLayer(num_nodes, act_func, self.layers[-1]))
 
     def predict(self, input: np.array([[]])) -> list:
         if len(input[0]) != len(self.layers[0].nodes):
@@ -52,8 +49,9 @@ class NeuralNetwork:
             results.append([node.result for node in self.layers[-1].nodes])
         return np.array(results)
     
-    def fit(self, X: list, y: list) -> None:
-        self.propagation(X, y)
+    def fit(self, X: list, Y: list) -> None:
+        for i in range(self.max_iterations):
+            self.propagation(self, X, Y)
 
     # def visualize(self):
     #     G = gv.GraphVisualization()
