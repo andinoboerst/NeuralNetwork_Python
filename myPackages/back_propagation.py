@@ -1,6 +1,4 @@
 import numpy as np
-import math
-import myPackages.error_functions as errf
 
 def sample_prop(my_nn, X: np.array([[]]), Y: np.array([[]]), to_update: bool=True) -> None:
     '''

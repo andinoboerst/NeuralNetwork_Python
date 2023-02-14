@@ -40,24 +40,16 @@ class Layer:
         for node in self.nodes:
             res = node.bias
             for edge in node.edges:
-                #print(f"res: {res} weight: {edge.weight}")
                 res += edge.weight*edge.nodes[0].result
-            #print(res)
             node.store_result(self.activation_function(res))
-            #print(node.result)
-            #input("pause")
 
     def layer_predict_special(self) -> None:
         node_results = []
         for node in self.nodes:
             res = node.bias
             for edge in node.edges:
-                #print(f"res: {res} weight: {edge.weight}")
                 res += edge.weight*edge.nodes[0].result
-            #print(res)
             node_results.append(res)
-            #print(node.result)
-            #input("pause")
         new_node_results = self.activation_function(node_results)
         for node, result in zip(self.nodes,new_node_results):
             node.store_result(result)

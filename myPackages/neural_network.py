@@ -1,6 +1,5 @@
 import myPackages.layer as lay
 import myPackages.back_propagation as bp
-import myPackages.graph_viz as gv
 import myPackages.error_functions as errf
 import numpy as np
 
@@ -62,17 +61,5 @@ class NeuralNetwork:
             if acc > 99:
                 break
 
-    # def visualize(self):
-    #     G = gv.GraphVisualization()
-    #     node = 0
-    #     for layer1, layer2 in zip(self.layers[:-1], self.layers[1:]):
-    #         for node in self.layer
-    #     G.addEdge(0, 2)
-    #     G.addEdge(1, 2)
-    #     G.addEdge(1, 3)
-    #     G.addEdge(5, 3)
-    #     G.addEdge(3, 4)
-    #     G.addEdge(1, 0)
-    #     G.visualize()
         
 
