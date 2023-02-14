@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import myPackages.neural_network as nn
+import src.neural_network as nn
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 import seaborn as sns

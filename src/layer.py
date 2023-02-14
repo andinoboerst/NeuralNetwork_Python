@@ -1,6 +1,6 @@
-import myPackages.activation_functions as af
-import myPackages.node as nd
-import myPackages.edge as ed
+import src.activation_functions as af
+import src.node as nd
+import src.edge as ed
 import random
 import numpy as np
 

@@ -1,6 +1,6 @@
-import myPackages.layer as lay
-import myPackages.back_propagation as bp
-import myPackages.error_functions as errf
+import src.layer as lay
+import src.back_propagation as bp
+import src.error_functions as errf
 import numpy as np
 
 LAYER_TYPES = {"standard": lay.Layer, "input": lay.Layer, "output": lay.Layer}

@@ -1,4 +1,4 @@
-import myPackages.edge as ed
+import src.edge as ed
 
 class Node:
     def __init__(self) -> None:
