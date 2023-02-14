@@ -5,38 +5,30 @@ from sklearn import datasets
 from sklearn.model_selection import train_test_split
 import seaborn as sns
 import pandas as pd
-import tensorflow as tf
 
 
 
 def main():
-    fashion_mnist = tf.keras.datasets.fashion_mnist
 
-    (X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
-    X_train = X_train.reshape((len(X_train),-1))/255
-    X_test = X_test.reshape((len(X_test),-1))/255
-
-    # digits = datasets.load_digits()
+    digits = datasets.load_digits()
 
     # flatten the images
-    # n_samples = len(digits.images)
-    # data = digits.images.reshape((n_samples, -1))/100
+    n_samples = len(digits.images)
+    data = digits.images.reshape((n_samples, -1))/100
 
     # Split data into 50% train and 50% test subsets
-    # X_train, X_test, y_train, y_test = train_test_split(
-    #     data, digits.target, test_size=0.5, shuffle=False
-    # )
+    X_train, X_test, y_train, y_test = train_test_split(
+        data, digits.target, test_size=0.5, shuffle=False
+    )
 
     y_train_adjusted = np.zeros((len(y_train), max(y_train)+1)) # for every digit store an array of length 10 of zeros with the correct digit being represented with a 1 in that index
     for index, digit in enumerate(y_train):
         y_train_adjusted[index, digit] = 1
 
-    my_NN = nn.NeuralNetwork(max_iterations=50, learning_rate=0.3, propagation='sample')
-    #my_NN.add_input_layer(64)
-    my_NN.add_input_layer(784)
-    my_NN.add_standard_layer(128)
+    my_NN = nn.NeuralNetwork(max_iterations=50, learning_rate=0.2, propagation='sample')
+    my_NN.add_input_layer(64)
     #my_NN.add_standard_layer(53, act_func='sigmoid')
-    #my_NN.add_standard_layer(42)
+    my_NN.add_standard_layer(42)
     #my_NN.add_standard_layer(31, act_func='sigmoid')
     #my_NN.add_standard_layer(20)
     my_NN.add_output_layer(10)
