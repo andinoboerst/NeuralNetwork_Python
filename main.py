@@ -25,7 +25,7 @@ def main():
     for index, digit in enumerate(y_train):
         y_train_adjusted[index, digit] = 1
 
-    my_NN = nn.NeuralNetwork(max_iterations=50, learning_rate=0.2, propagation='sample')
+    my_NN = nn.NeuralNetwork(max_iterations=50, learning_rate=0.1, propagation='sample')
     my_NN.add_input_layer(64)
     #my_NN.add_standard_layer(53, act_func='sigmoid')
     my_NN.add_standard_layer(42)
