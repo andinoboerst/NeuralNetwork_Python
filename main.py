@@ -37,7 +37,7 @@ def main():
 
     predictions_test = my_NN.predict(X_test)
     num_predictions_test = np.argmax(predictions_test, axis=1)
-    print(f"Accuracy: {sum(num_predictions_test==y_test)/len(y_test):.2f}%.")
+    print(f"Accuracy: {sum(num_predictions_test==y_test)/len(y_test)*100:.2f}%.")
 
     df = pd.DataFrame(0, index=np.arange(10), columns=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
     for pre, actual in zip(num_predictions_test, y_test):
