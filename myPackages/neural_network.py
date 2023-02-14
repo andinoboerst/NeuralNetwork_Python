@@ -1,6 +1,7 @@
 import myPackages.layer as lay
 import myPackages.back_propagation as bp
 import myPackages.graph_viz as gv
+import myPackages.error_functions as errf
 import numpy as np
 
 LAYER_TYPES = {"standard": lay.Layer, "input": lay.Layer, "output": lay.Layer}
@@ -29,13 +30,13 @@ class NeuralNetwork:
     def add_input_layer(self, num_nodes: int) -> None:
         self.layers.append(lay.Layer(num_nodes))
 
-    def add_standard_layer(self, num_nodes: int, act_func: str="relu") -> None:
+    def add_standard_layer(self, num_nodes: int, act_func: str="relu", err_func: str="mse") -> None:
         self.check_input_layer()
-        self.layers.append(lay.Layer(num_nodes, act_func, self.layers[-1]))
+        self.layers.append(lay.Layer(num_nodes, act_func, self.layers[-1], err_func))
 
-    def add_output_layer(self, num_nodes: int, act_func: str="sigmoid") -> None:
+    def add_output_layer(self, num_nodes: int, act_func: str="softmax", err_func: str="mse") -> None:
         self.check_input_layer()
-        self.layers.append(lay.OutputLayer(num_nodes, act_func, self.layers[-1]))
+        self.layers.append(lay.OutputLayer(num_nodes, act_func, self.layers[-1], err_func))
 
     def predict(self, input: np.array([[]])) -> list:
         if len(input[0]) != len(self.layers[0].nodes):
@@ -51,7 +52,15 @@ class NeuralNetwork:
     
     def fit(self, X: list, Y: list) -> None:
         for i in range(self.max_iterations):
+            print(f"Iteration {i+1} of maximum {self.max_iterations}.")
             self.propagation(self, X, Y)
+            Y_predicted = self.predict(X)
+            loss = errf.mean_squared_error(Y_predicted, Y)
+            acc = sum(np.argmax(Y_predicted, axis=1)==np.argmax(Y, axis=1))/len(Y)*100
+            print(f"Loss: {loss}.")
+            print(f"Accuracy: {acc:.2f}%.\n")
+            if acc > 99:
+                break
 
     # def visualize(self):
     #     G = gv.GraphVisualization()

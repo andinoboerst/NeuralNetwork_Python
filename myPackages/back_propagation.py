@@ -1,24 +1,22 @@
 import numpy as np
 import math
+import myPackages.error_functions as errf
 
 def sample_prop(my_nn, X: np.array([[]]), Y: np.array([[]]), to_update: bool=True) -> None:
     '''
     Backpropagation after every sample
     '''
     for x, y in zip(X,Y):
-        #print(x)
-        my_nn.predict([x])
-        #print(my_nn.predict([x]))
-        #print(y)
-        my_nn.layers[-1].define_errors(y)
+        y_pred = my_nn.predict([x])
+        my_nn.layers[-1].define_nodal_gradient((y_pred-y)[0])
         for layer in reversed(my_nn.layers[1:-1]):
-            layer.define_errors()
+            layer.define_nodal_gradient()
 
-        for layer in reversed(my_nn.layers[1:]):
+        for layer in my_nn.layers[1:]:
             for node in layer.nodes:
-                node.new_bias = node.bias - (my_nn.learning_rate*node.error)
+                node.new_bias = node.bias - (my_nn.learning_rate*node.dz)
                 for edge in node.edges:
-                    res = edge.weight-(my_nn.learning_rate*node.error*edge.nodes[0].result)
+                    res = edge.weight-(my_nn.learning_rate*node.dz*edge.nodes[0].result)
                     edge.new_weights.append(res)
 
         if to_update:
@@ -57,8 +55,3 @@ def apply_prop(my_nn):
             for edge in node.edges:
                 edge.weight = np.mean(edge.new_weights)
                 edge.new_weights = []
-
-
-
-def mean_squared_error(self, y_pred: np.array([]), y_real: np.array([])):
-    return ((y_pred-y_real)**2).sum() / (2*len(y_pred))

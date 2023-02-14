@@ -1,5 +1,6 @@
 import numpy as np
 import math
+from scipy.special import softmax
 
 ALPHA = 0.001
 
@@ -59,3 +60,6 @@ def deriv_elu(output: float) -> float:
         return output + ALPHA
     else:
         return 1
+    
+def softmax_activation(input: list) -> list:
+    return softmax(input)

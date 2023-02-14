@@ -4,6 +4,7 @@ class Node:
     def __init__(self) -> None:
         self.bias = 0
         self.edges = []
+        self.dzs = []
 
     def store_result(self, res: float) -> None:
         self.result = res
